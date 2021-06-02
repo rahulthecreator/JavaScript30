@@ -6,9 +6,9 @@
 </head>
 <body>
 
-    <!-- <div class="digital-clock">
+    <div class="digital-clock">
       <h1></h1>
-    </div> -->
+    </div>
 
     <div class="clock">
       <div class="clock-face">
@@ -37,7 +37,7 @@
       align-items: center;
     }
 
-    /* .digital-clock {
+    .digital-clock {
       width: 400px;
       height: 100px;
       background: transparent;
@@ -51,8 +51,13 @@
 
     .digital-clock h1 {
       font-weight: 900;
-      font-size: 40px;
-    } */
+      font-size: 60px;
+      color: black;
+    }
+
+    .animate{
+      border:  rgb(245, 39, 32) 10px solid;
+    }
 
     .clock {
       width: 30rem;
@@ -104,24 +109,53 @@
 
   <script>
 
+
+    const digitalClock = document.querySelector('.digital-clock');
+    const h1 = document.querySelector('.digital-clock h1')
+
     const secondHand = document.querySelector('.second-hand');
     const minHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
 
+
+    function digiClock() {
+      const date = new Date();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+
+      //Adding zero to the left of the digital time if its less or equal than 9
+      if(hours <= 9) {
+        hours = '0' + minutes;
+      } else if(minutes <= 9){
+        minutes = '0' + minutes;
+      } else if(seconds <= 9 ) {
+        seconds = '0' + seconds
+      }
+       
+      if(hours > 12) {
+        hours = hours - 12;
+      }
+
+      //Add the time to the h1 element
+      h1.innerHTML = hours + ':' + minutes + ':' + seconds;
+    }
+
+    setInterval(digiClock, 1000);
+
     function setDate() {
       const now = new Date();
-      
-
+    
       const seconds = now.getSeconds();
-      const secondsDegree = ((seconds / 60)* 360) + 90;
-      secondHand.style.transform = `rotate(${secondsDegree}deg)`
-
       const mins = now.getMinutes();
-      const minsDegree = ((mins / 60 )*360) + 90;
-      minHand.style.transform = `rotate(${minsDegree}deg)`
-
       const hour = now.getHours();
+
+      const secondsDegree = ((seconds / 60)* 360) + 90;
+      const minsDegree = ((mins / 60 )*360) + 90;
       const hoursDegree = ((hour / 12)* 360) + 90;
+
+      secondHand.style.transform = `rotate(${secondsDegree}deg)`
+      minHand.style.transform = `rotate(${minsDegree}deg)`
       hourHand.style.transform = `rotate(${hoursDegree}deg)`
       console.log(seconds);
     }
